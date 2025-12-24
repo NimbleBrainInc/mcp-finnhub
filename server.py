@@ -237,4 +237,4 @@ async def health_check(request: Request):
 
 
 # Create ASGI application for uvicorn
-app = mcp.streamable_http_app()
+app = mcp.http_app()

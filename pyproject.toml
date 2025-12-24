@@ -18,7 +18,7 @@ classifiers = [
     "Topic :: Office/Business :: Financial",
 ]
 dependencies = [
-    "fastmcp>=2.11.2",
+    "fastmcp>=2.14.1",
     "finnhub-python>=2.4.19",
 ]
 
@@ -37,7 +37,7 @@ Repository = "https://github.com/NimbleBrainInc/mcp-finnhub.git"
 Issues = "https://github.com/NimbleBrainInc/mcp-finnhub/issues"
 
 [project.scripts]
-mcp-finnhub = "server:main"
+mcp-finnhub = "server:app"
 
 [tool.uv]
 dev-dependencies = [
