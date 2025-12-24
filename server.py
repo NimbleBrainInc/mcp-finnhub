@@ -235,14 +235,6 @@ def get_recommendation_trends(symbol: str, api_key: str = None) -> str:
 async def health_check(request: Request):
     return JSONResponse({"status": "healthy"})
 
-def main():
-    """Main entry point"""
-    mcp.run(
-        transport="streamable-http",
-        host="0.0.0.0",
-        port=8000,
-    )
 
-
-if __name__ == "__main__":
-    main()
+# Create ASGI application for uvicorn
+app = mcp.streamable_http_app()
