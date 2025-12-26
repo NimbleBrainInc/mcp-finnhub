@@ -1,7 +1,7 @@
 {
   "manifest_version": "0.3",
   "name": "ai.nimbletools/finnhub",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Financial market data and news MCP service powered by Finnhub API",
   "author": {
     "name": "NimbleBrain Inc"
