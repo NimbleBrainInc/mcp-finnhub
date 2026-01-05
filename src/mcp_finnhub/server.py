@@ -236,5 +236,9 @@ async def health_check(request: Request):
     return JSONResponse({"status": "healthy"})
 
 
-# Create ASGI application for uvicorn
+# HTTP entrypoint (deployment)
 app = mcp.http_app()
+
+# Stdio entrypoint (Claude Desktop / mpak)
+if __name__ == "__main__":
+    mcp.run()
