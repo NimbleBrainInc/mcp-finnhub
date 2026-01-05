@@ -1,17 +1,29 @@
 {
   "manifest_version": "0.3",
   "name": "@nimblebraininc/finnhub",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Financial market data and news MCP service powered by Finnhub API",
   "author": {
     "name": "NimbleBrain Inc"
+  },
+  "user_config": {
+    "api_key": {
+      "type": "string",
+      "title": "Finnhub API Key",
+      "description": "Your Finnhub API key from https://finnhub.io/dashboard",
+      "sensitive": true,
+      "required": true
+    }
   },
   "server": {
     "type": "python",
     "entry_point": "mcp_finnhub.server",
     "mcp_config": {
       "command": "python",
-      "args": ["-m", "mcp_finnhub.server"]
+      "args": ["-m", "mcp_finnhub.server"],
+      "env": {
+        "FINNHUB_API_KEY": "${user_config.api_key}"
+      }
     }
   }
 }
