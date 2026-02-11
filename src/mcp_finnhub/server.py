@@ -236,6 +236,9 @@ async def health_check(request: Request):
     return JSONResponse({"status": "healthy"})
 
 
+# ASGI entrypoint (uvicorn / container deployment)
+app = mcp.http_app()
+
 if __name__ == "__main__":
     transport = os.environ.get("MCP_TRANSPORT", "stdio")
 
