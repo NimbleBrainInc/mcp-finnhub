@@ -21,6 +21,7 @@ Makefile
 pytest.ini
 .env
 .env.*
+scripts/
 
 # Lock files
 uv.lock

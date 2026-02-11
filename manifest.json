@@ -1,10 +1,15 @@
 {
-  "manifest_version": "0.3",
+  "manifest_version": "0.4",
   "name": "@nimblebraininc/finnhub",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Financial market data and news MCP service powered by Finnhub API",
   "author": {
-    "name": "NimbleBrain Inc"
+    "name": "NimbleBrain Inc",
+    "email": "hello@nimblebrain.ai"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NimbleBrainInc/mcp-finnhub"
   },
   "user_config": {
     "api_key": {
@@ -20,9 +25,46 @@
     "entry_point": "mcp_finnhub.server",
     "mcp_config": {
       "command": "python",
-      "args": ["-m", "mcp_finnhub.server"],
+      "args": [
+        "-m",
+        "mcp_finnhub.server"
+      ],
       "env": {
         "FINNHUB_API_KEY": "${user_config.api_key}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "get_market_news",
+      "description": "Get latest market news by category from Finnhub"
+    },
+    {
+      "name": "get_stock_quote",
+      "description": "Get real-time stock price quote for a symbol"
+    },
+    {
+      "name": "get_company_profile",
+      "description": "Get company profile information for a stock symbol"
+    },
+    {
+      "name": "get_basic_financials",
+      "description": "Get basic financial metrics and ratios for a company"
+    },
+    {
+      "name": "get_recommendation_trends",
+      "description": "Get analyst recommendation trends for a stock"
+    }
+  ],
+  "_meta": {
+    "org.mpaktrust": {
+      "mtf_version": "0.1",
+      "permissions": {
+        "filesystem": "none",
+        "network": "outbound",
+        "environment": "read",
+        "subprocess": "none",
+        "native": "none"
       }
     }
   }
