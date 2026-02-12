@@ -236,17 +236,9 @@ async def health_check(request: Request):
     return JSONResponse({"status": "healthy"})
 
 
-# ASGI entrypoint (uvicorn / container deployment)
+# ASGI entrypoint (nimbletools-core container deployment)
 app = mcp.http_app()
 
+# Stdio entrypoint (mpak / Claude Desktop)
 if __name__ == "__main__":
-    transport = os.environ.get("MCP_TRANSPORT", "stdio")
-
-    if transport in ("http", "streamable-http"):
-        mcp.run(
-            transport="streamable-http",
-            host=os.environ.get("MCP_HOST", "0.0.0.0"),
-            port=int(os.environ.get("MCP_PORT", "8000")),
-        )
-    else:
-        mcp.run()
+    mcp.run()

@@ -2,7 +2,7 @@
 BUNDLE_NAME = mcp-finnhub
 VERSION ?= 0.0.1
 
-.PHONY: help install dev-install format format-check lint lint-fix test test-cov clean check all bundle bundle-run run run-stdio run-http test-http bump
+.PHONY: help install dev-install format format-check lint lint-fix test test-cov test-e2e clean check all bundle bundle-run run run-stdio run-http test-http bump
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'
@@ -33,6 +33,9 @@ test: ## Run tests with pytest
 
 test-cov: ## Run tests with coverage
 	uv run pytest tests/ -v --cov=src/mcp_finnhub --cov-report=term-missing
+
+test-e2e: ## Run end-to-end MCPB tests
+	uv run pytest e2e/ -v -s
 
 clean: ## Clean up artifacts
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
