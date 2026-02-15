@@ -7,6 +7,7 @@ Financial market data and news service powered by Finnhub API
 import json
 import os
 from datetime import datetime, timezone
+from importlib.resources import files
 
 import finnhub
 from fastmcp import FastMCP
@@ -14,7 +15,21 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 # Create FastMCP server
-mcp = FastMCP("Finnhub MCP Server")
+mcp = FastMCP(
+    "Finnhub MCP Server",
+    instructions=(
+        "Before using Finnhub tools, read the skill://finnhub/usage resource "
+        "for tool selection guidance and multi-step workflow patterns."
+    ),
+)
+
+SKILL_CONTENT = files("mcp_finnhub").joinpath("SKILL.md").read_text()
+
+
+@mcp.resource("skill://finnhub/usage")
+def finnhub_skill() -> str:
+    """How to effectively use Finnhub tools: tool selection, stock symbols, multi-step workflows."""
+    return SKILL_CONTENT
 
 
 def get_finnhub_client(api_key: str = None) -> finnhub.Client:

@@ -7,6 +7,36 @@ from unittest.mock import patch, MagicMock
 from fastmcp import Client
 
 
+class TestSkillResource:
+    """Test the skill resource and server instructions."""
+
+    @pytest.mark.asyncio
+    async def test_initialize_returns_instructions(self, mcp_server):
+        """Server instructions reference the skill resource."""
+        async with Client(mcp_server) as client:
+            result = await client.initialize()
+            assert result.instructions is not None
+            assert "skill://finnhub/usage" in result.instructions
+
+    @pytest.mark.asyncio
+    async def test_skill_resource_listed(self, mcp_server):
+        """skill://finnhub/usage appears in resource listing."""
+        async with Client(mcp_server) as client:
+            resources = await client.list_resources()
+            uris = [str(r.uri) for r in resources]
+            assert "skill://finnhub/usage" in uris
+
+    @pytest.mark.asyncio
+    async def test_skill_resource_readable(self, mcp_server):
+        """Reading the skill resource returns the full skill content."""
+        async with Client(mcp_server) as client:
+            contents = await client.read_resource("skill://finnhub/usage")
+            text = contents[0].text if hasattr(contents[0], "text") else str(contents[0])
+            assert "Tool Selection" in text
+            assert "get_stock_quote" in text
+            assert "get_basic_financials" in text
+
+
 @pytest.mark.asyncio
 async def test_tools_list(mcp_server):
     """Test that tools are properly registered"""
