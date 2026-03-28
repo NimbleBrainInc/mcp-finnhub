@@ -54,6 +54,26 @@
     {
       "name": "get_recommendation_trends",
       "description": "Get analyst recommendation trends for a stock"
+    },
+    {
+      "name": "get_insider_transactions",
+      "description": "Get insider transactions (SEC Form 4) for a stock symbol"
+    },
+    {
+      "name": "get_insider_sentiment",
+      "description": "Get aggregated insider sentiment (monthly buy/sell metrics) for a stock"
+    },
+    {
+      "name": "get_earnings_calendar",
+      "description": "Get earnings calendar with upcoming and recent earnings dates"
+    },
+    {
+      "name": "get_peers",
+      "description": "Get list of peer/similar companies for a stock symbol"
+    },
+    {
+      "name": "get_company_news",
+      "description": "Get recent news articles for a specific company"
     }
   ],
   "_meta": {
