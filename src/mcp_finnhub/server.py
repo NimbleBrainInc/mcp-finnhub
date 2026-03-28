@@ -41,17 +41,12 @@ def get_finnhub_client(api_key: str = None) -> finnhub.Client:
     return finnhub.Client(api_key=api_key)
 
 
-
-
 @mcp.tool
-def get_market_news(
-    category: str = "general", min_id: str = "0", api_key: str = None
-) -> str:
+def get_market_news(category: str = "general", min_id: str = "0", api_key: str = None) -> str:
     """Get latest market news from Finnhub"""
     try:
         client = get_finnhub_client(api_key)
         news = client.general_news(category, min_id=min_id)
-
 
         # Format news for better readability
         formatted_news = []
@@ -61,9 +56,7 @@ def get_market_news(
                     "headline": article.get("headline", ""),
                     "summary": article.get("summary", ""),
                     "url": article.get("url", ""),
-                    "datetime": datetime.fromtimestamp(
-                        article.get("datetime", 0)
-                    ).isoformat(),
+                    "datetime": datetime.fromtimestamp(article.get("datetime", 0)).isoformat(),
                     "source": article.get("source", ""),
                     "category": article.get("category", ""),
                 }
@@ -94,7 +87,6 @@ def get_stock_quote(symbol: str, api_key: str = None) -> str:
         client = get_finnhub_client(api_key)
         quote = client.quote(symbol)
 
-
         result = {
             "symbol": symbol,
             "current_price": quote.get("c", 0),
@@ -105,9 +97,7 @@ def get_stock_quote(symbol: str, api_key: str = None) -> str:
             "open": quote.get("o", 0),
             "previous_close": quote.get("pc", 0),
             "timestamp": (
-                datetime.fromtimestamp(quote.get("t", 0)).isoformat()
-                if quote.get("t")
-                else None
+                datetime.fromtimestamp(quote.get("t", 0)).isoformat() if quote.get("t") else None
             ),
             "retrieved_at": datetime.now(UTC).isoformat(),
         }
@@ -129,7 +119,6 @@ def get_company_profile(symbol: str, api_key: str = None) -> str:
     try:
         client = get_finnhub_client(api_key)
         profile = client.company_profile2(symbol=symbol)
-
 
         result = {
             "symbol": symbol,
@@ -165,7 +154,6 @@ def get_basic_financials(symbol: str, metric: str = "all", api_key: str = None) 
     try:
         client = get_finnhub_client(api_key)
         financials = client.company_basic_financials(symbol, "all")
-
 
         metrics = financials.get("metric", {})
 
@@ -212,7 +200,6 @@ def get_recommendation_trends(symbol: str, api_key: str = None) -> str:
     try:
         client = get_finnhub_client(api_key)
         recommendations = client.recommendation_trends(symbol)
-
 
         # Format recommendations for better readability
         formatted_recs = []
@@ -291,7 +278,9 @@ def get_insider_sentiment(symbol: str, api_key: str = None) -> str:
     """Get aggregated insider sentiment (monthly buy/sell metrics) for a stock"""
     try:
         client = get_finnhub_client(api_key)
-        data = client.stock_insider_sentiment(symbol, "2020-01-01", datetime.now().strftime("%Y-%m-%d"))
+        data = client.stock_insider_sentiment(
+            symbol, "2020-01-01", datetime.now().strftime("%Y-%m-%d")
+        )
 
         records = data.get("data", [])
         # Return last 12 months

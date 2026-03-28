@@ -104,13 +104,13 @@ async def test_get_stock_quote_with_mock(mock_finnhub_client, mcp_server):
     mock_finnhub_client.return_value = mock_client
     mock_client.quote.return_value = {
         "c": 150.0,  # current price
-        "d": 2.5,    # change
+        "d": 2.5,  # change
         "dp": 1.69,  # percent change
         "h": 152.0,  # high
         "l": 148.0,  # low
         "o": 149.0,  # open
-        "pc": 147.5, # previous close
-        "t": 1640995200  # timestamp
+        "pc": 147.5,  # previous close
+        "t": 1640995200,  # timestamp
     }
 
     async with Client(mcp_server) as client:
@@ -140,7 +140,7 @@ async def test_get_market_news_with_mock(mock_finnhub_client, mcp_server):
             "url": "https://example.com",
             "datetime": 1640995200,
             "source": "Test Source",
-            "category": "general"
+            "category": "general",
         }
     ]
 
@@ -205,9 +205,7 @@ async def test_get_insider_transactions_with_mock(mock_finnhub_client, mcp_serve
     }
 
     async with Client(mcp_server) as client:
-        result = await client.call_tool(
-            "get_insider_transactions", {"symbol": "RTX"}
-        )
+        result = await client.call_tool("get_insider_transactions", {"symbol": "RTX"})
 
         result_data = json.loads(result.data)
         assert result_data["symbol"] == "RTX"
@@ -222,23 +220,16 @@ async def test_get_insider_transactions_with_mock(mock_finnhub_client, mcp_serve
 @patch.dict(os.environ, {"FINNHUB_API_KEY": "test_api_key"})
 @patch("finnhub.Client")
 @pytest.mark.asyncio
-async def test_get_insider_transactions_respects_limit(
-    mock_finnhub_client, mcp_server
-):
+async def test_get_insider_transactions_respects_limit(mock_finnhub_client, mcp_server):
     """Test that limit parameter caps the number of returned transactions."""
     mock_client = MagicMock()
     mock_finnhub_client.return_value = mock_client
     mock_client.stock_insider_transactions.return_value = {
-        "data": [
-            {"name": f"Person {i}", "share": 1000, "change": 100}
-            for i in range(30)
-        ],
+        "data": [{"name": f"Person {i}", "share": 1000, "change": 100} for i in range(30)],
     }
 
     async with Client(mcp_server) as client:
-        result = await client.call_tool(
-            "get_insider_transactions", {"symbol": "AAPL", "limit": 5}
-        )
+        result = await client.call_tool("get_insider_transactions", {"symbol": "AAPL", "limit": 5})
 
         result_data = json.loads(result.data)
         assert result_data["count"] == 5
@@ -261,9 +252,7 @@ async def test_get_insider_sentiment_with_mock(mock_finnhub_client, mcp_server):
     }
 
     async with Client(mcp_server) as client:
-        result = await client.call_tool(
-            "get_insider_sentiment", {"symbol": "RTX"}
-        )
+        result = await client.call_tool("get_insider_sentiment", {"symbol": "RTX"})
 
         result_data = json.loads(result.data)
         assert result_data["symbol"] == "RTX"
@@ -278,27 +267,17 @@ async def test_get_insider_sentiment_with_mock(mock_finnhub_client, mcp_server):
 @patch.dict(os.environ, {"FINNHUB_API_KEY": "test_api_key"})
 @patch("finnhub.Client")
 @pytest.mark.asyncio
-async def test_get_insider_sentiment_caps_to_12_months(
-    mock_finnhub_client, mcp_server
-):
+async def test_get_insider_sentiment_caps_to_12_months(mock_finnhub_client, mcp_server):
     """Test that insider sentiment only returns the last 12 months."""
     mock_client = MagicMock()
     mock_finnhub_client.return_value = mock_client
     mock_client.stock_insider_sentiment.return_value = {
-        "data": [
-            {"year": 2025, "month": i, "change": 1000, "mspr": 1.0}
-            for i in range(1, 13)
-        ]
-        + [
-            {"year": 2026, "month": i, "change": 2000, "mspr": 2.0}
-            for i in range(1, 4)
-        ],
+        "data": [{"year": 2025, "month": i, "change": 1000, "mspr": 1.0} for i in range(1, 13)]
+        + [{"year": 2026, "month": i, "change": 2000, "mspr": 2.0} for i in range(1, 4)],
     }
 
     async with Client(mcp_server) as client:
-        result = await client.call_tool(
-            "get_insider_sentiment", {"symbol": "AAPL"}
-        )
+        result = await client.call_tool("get_insider_sentiment", {"symbol": "AAPL"})
 
         result_data = json.loads(result.data)
         assert result_data["months_available"] == 12
@@ -349,9 +328,7 @@ async def test_get_earnings_calendar_with_symbol(mock_finnhub_client, mcp_server
 @patch.dict(os.environ, {"FINNHUB_API_KEY": "test_api_key"})
 @patch("finnhub.Client")
 @pytest.mark.asyncio
-async def test_get_earnings_calendar_defaults_dates(
-    mock_finnhub_client, mcp_server
-):
+async def test_get_earnings_calendar_defaults_dates(mock_finnhub_client, mcp_server):
     """Test get_earnings_calendar uses today + 30 days when no dates given."""
     mock_client = MagicMock()
     mock_finnhub_client.return_value = mock_client
@@ -375,9 +352,7 @@ async def test_get_peers_with_mock(mock_finnhub_client, mcp_server):
     """Test get_peers returns a list of similar companies."""
     mock_client = MagicMock()
     mock_finnhub_client.return_value = mock_client
-    mock_client.company_peers.return_value = [
-        "LMT", "BA", "NOC", "GD", "HII"
-    ]
+    mock_client.company_peers.return_value = ["LMT", "BA", "NOC", "GD", "HII"]
 
     async with Client(mcp_server) as client:
         result = await client.call_tool("get_peers", {"symbol": "RTX"})
@@ -459,9 +434,7 @@ async def test_get_company_news_defaults_dates(mock_finnhub_client, mcp_server):
     mock_client.company_news.return_value = []
 
     async with Client(mcp_server) as client:
-        result = await client.call_tool(
-            "get_company_news", {"symbol": "AAPL"}
-        )
+        result = await client.call_tool("get_company_news", {"symbol": "AAPL"})
 
         result_data = json.loads(result.data)
         assert result_data["symbol"] == "AAPL"
@@ -483,9 +456,7 @@ async def test_get_company_news_caps_at_15(mock_finnhub_client, mcp_server):
     ]
 
     async with Client(mcp_server) as client:
-        result = await client.call_tool(
-            "get_company_news", {"symbol": "AAPL"}
-        )
+        result = await client.call_tool("get_company_news", {"symbol": "AAPL"})
 
         result_data = json.loads(result.data)
         assert result_data["count"] == 15
@@ -499,9 +470,7 @@ async def test_get_insider_transactions_no_api_key(mcp_server):
     """Test get_insider_transactions returns error without API key."""
     with patch.dict(os.environ, {}, clear=True):
         async with Client(mcp_server) as client:
-            result = await client.call_tool(
-                "get_insider_transactions", {"symbol": "AAPL"}
-            )
+            result = await client.call_tool("get_insider_transactions", {"symbol": "AAPL"})
             result_data = json.loads(result.data)
             assert "error" in result_data
 
