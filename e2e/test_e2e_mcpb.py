@@ -180,6 +180,11 @@ async def test_mcp_tools_list(mcpb_container):
                 "get_company_profile",
                 "get_basic_financials",
                 "get_recommendation_trends",
+                "get_insider_transactions",
+                "get_insider_sentiment",
+                "get_earnings_calendar",
+                "get_peers",
+                "get_company_news",
             }
 
             assert expected_tools.issubset(tool_names), (
