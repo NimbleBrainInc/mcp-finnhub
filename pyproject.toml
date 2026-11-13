@@ -1,6 +1,6 @@
 [project]
 name = "mcp-finnhub"
-version = "0.3.2"
+version = "0.4.0"
 description = "Financial market data and news MCP service powered by Finnhub API"
 readme = "README.md"
 license = {text = "MIT"}
@@ -18,7 +18,7 @@ classifiers = [
     "Topic :: Office/Business :: Financial",
 ]
 dependencies = [
-    "fastmcp>=2.14.1",
+    "fastmcp>=4.0.0",
     "finnhub-python>=2.4.19",
 ]
 
@@ -51,6 +51,10 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+filterwarnings = [
+    # A deprecated MCP capability (logging, sampling, roots under SEP-2577) fails the suite.
+    "error::mcp.MCPDeprecationWarning",
+]
 addopts = [
     "--strict-markers",
     "--strict-config",
